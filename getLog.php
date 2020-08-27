@@ -21,19 +21,18 @@ for ($i = 1; $i < $n; $i++) {
     array_push($days, get_inner_html($node));
 }
 
+
+$areaDataList = [];
 $n = count($tr_nodes);
 for ($i = 1; $i < $n; $i++) {
     $tr_node = $tr_nodes->item($i);
     $str = $dom->saveHTML($tr_node);
-
     if ($tr_node) {
         $td_nodes = $tr_node->getElementsByTagName('td');
         $td_node = $td_nodes->item(0);
         if (count($td_nodes) > 0) {
             if ($td_node->attributes->getNamedItem('class')) {
-
                 if ($td_node->attributes->getNamedItem('class')->nodeValue == "area") {
-
                     /*
                     echo $dom->saveHTML($td_node) . "\n";
                     $m = count($td_nodes);
@@ -58,17 +57,22 @@ for ($i = 1; $i < $n; $i++) {
                     $areaData = new AreaData();
                     $areaData->setData($days,$tr_node,$next_tr_node);
 
+                    array_push($areaDataList,$areaData);
                 };
             }
         }
 
     }
     //echo $node->saveHTML($td_node);
-    echo "////////////// \n";
+    //echo "////////////// \n";
 }
 
 
-echo 'Current PHP version: ' . phpversion();
+$jsonstr =  json_encode($areaDataList, JSON_UNESCAPED_UNICODE);
+
+
+echo $jsonstr;
+//end
 function get_inner_html($node)
 {
     $innerHTML = '';
@@ -101,17 +105,18 @@ function getElementsByClassName($dom, $ClassName, $tagName = null)
 
 class AreaData
 {
-    private $area;
-    private $forecastDataList = [];
+    public $area;
+    public $forecastDataList = [];
 
     public function setData($days ,$main_tr, $next_tr)
     {
         $main_td_nodes = $main_tr->getElementsByTagName('td');
         $next_td_nodes = $next_tr->getElementsByTagName('td');
-        //echo "area // " . $main_td_nodes->item(0)->nodeValue . "\n";
-        //$area = $main_td_nodes->item(0)->nodeValue;
+        $area = $main_td_nodes->item(0)->nodeValue;
+        $area = str_replace(array("\r\n", "\r", "\n"), '', $area);
+        $this->area = str_replace(PHP_EOL, '' , $area);
         //
-        $forecastDataList = [];
+        $this->forecastDataList = [];
         $n = count($days);
         for ($i = 0; $i < $n; $i++) {
             $day = $days[$i];
@@ -126,48 +131,40 @@ class AreaData
             $forecastData = new ForecastData();
             $forecastData->setData($day,$main_td,$next_td);
 
-            array_push($forecastDataList,$forecastData);
+            array_push($this->forecastDataList,$forecastData);
         }
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getArea()
-    {
-        return $this->area;
     }
 }
 
 class ForecastData
 {
-    private $day;
-    private $week;
-    private $highestTemperature;
-    private $lowestTemperature;
-    private $rainyPercent;
-    private $accuracy;
-    private $value;
+    public $day;
+    public $week;
+    public $highestTemperature;
+    public $lowestTemperature;
+    public $rainyPercent;
+    public $accuracy;
+    public $value;
 
     public function setData($day_week, $main_td, $next_td)
     {
         //$list = explode("<br>",$day_week);
         $list = explode('<br/>', $day_week);
         //echo $day_week."\n";
-        $day = $list[0];
-        $week = $list[1];
+        $this->day = $list[0];
+        $this->week = $list[1];
         //
 
         $font_node = $main_td->getElementsByTagName('font')->item(0);
-        $lowestTemperature = $font_node->nodeValue;
+        $this->lowestTemperature = $font_node->nodeValue;
         $font_node = $main_td->getElementsByTagName('font')->item(1);
-        $highestTemperature = $font_node->nodeValue;
+        $this->highestTemperature = $font_node->nodeValue;
         $font_node = $main_td->getElementsByTagName('font')->item(2);
-        $rainyPercent = $font_node->nodeValue;
+        $this->rainyPercent = $font_node->nodeValue;
         $img_node = $main_td->getElementsByTagName('img')->item(0);
-        $value = $img_node->getAttribute("title");
+        $this->value = $img_node->getAttribute("title");
 
-        $accuracy = $next_td->nodeValue;
+        $this->accuracy = $next_td->nodeValue;
 
         /*
         echo "day :".$day."\n";
@@ -179,55 +176,6 @@ class ForecastData
         echo "accuracy :".$accuracy."\n";
         echo "/// \n";
         */
+
     }
-
-    /**
-     * @return mixed
-     */
-    public function getDay()
-    {
-        return $this->day;
-    }
-
-    /**
-     * @return string
-     */
-    public function getHighestTemperature()
-    {
-        return $this->highestTemperature;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLowestTemperature()
-    {
-        return $this->lowestTemperature;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRainyPercent()
-    {
-        return $this->rainyPercent;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAccuracy()
-    {
-        return $this->accuracy;
-    }
-
-    /**
-     * @return string
-     */
-    public function getValue()
-    {
-        return $this->value;
-    }
-
-
 }

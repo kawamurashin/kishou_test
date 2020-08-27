@@ -1,0 +1,88 @@
+{
+  "forecastList": [
+    {
+      "area": "東京",
+      "forecast": [
+        {
+          "day": "2",
+          "week": "日",
+          "highestTemperature": "32",
+          "lowestTemperature": "28",
+          "accuracy": "A",
+          "rainyPercent": "20",
+          "value": "晴れ"
+        },
+        {
+          "day": "3",
+          "week": "月",
+          "highestTemperature": "32",
+          "lowestTemperature": "28",
+          "accuracy": "A",
+          "rainyPercent": "20",
+          "value": "晴れ"
+        },
+        {
+          "day": "4",
+          "week": "火",
+          "highestTemperature": "32",
+          "lowestTemperature": "28",
+          "accuracy": "A",
+          "rainyPercent": "20",
+          "value": "晴れ"
+        },
+        {
+          "day": "5",
+          "week": "水",
+          "highestTemperature": "32",
+          "lowestTemperature": "28",
+
+
+          "accuracy": "A",
+          "rainyPercent": "20",
+          "value": "晴れ"
+        }
+      ]
+    },
+    {
+      "area": "大阪",
+      "forecast": [
+        {
+          "day": "2",
+          "week": "日",
+          "highestTemperature": "32",
+          "lowestTemperature": "28",
+          "accuracy": "A",
+          "rainyPercent": "20",
+          "value": "晴れ"
+        },
+        {
+          "day": "3",
+          "week": "月",
+          "highestTemperature": "32",
+          "lowestTemperature": "28",
+          "accuracy": "A",
+          "rainyPercent": "20",
+          "value": "晴れ"
+        },
+        {
+          "day": "4",
+          "week": "火",
+          "highestTemperature": "32",
+          "lowestTemperature": "28",
+          "accuracy": "A",
+          "rainyPercent": "20",
+          "value": "晴れ"
+        },
+        {
+          "day": "5",
+          "week": "水",
+          "highestTemperatur": "32",
+          "lowestTemperature": "28",
+          "accuracy": "A",
+          "rainyPercent": "20",
+          "value": "晴れ"
+        }
+      ]
+    }
+  ]
+}
